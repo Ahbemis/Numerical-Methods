@@ -1,5 +1,7 @@
 # ODE.py
 # Solving an Ordinary Differential Equation (ODE) using Euler's Method
+import numpy as np
+import matplotlib.pyplot as plt
 
 def euler_method(f, y0, t0, t_end, h):
     """
@@ -48,7 +50,7 @@ if __name__ == "__main__":
     y0 = 1  # Initial value of y
     t0 = 0  # Initial time
     t_end = 5  # End time for the solution
-    h = 0.1  # Step size for the numerical approximation
+    h = 0.01  # Step size for the numerical approximation
 
     # Solve the ODE using Euler's method
     t_values, y_values = euler_method(f, y0, t0, t_end, h)
@@ -58,8 +60,8 @@ if __name__ == "__main__":
         print(f"t = {t:.2f}, y = {y:.4f}")
 
     # Plotting the results
-    import matplotlib.pyplot as plt
     plt.plot(t_values, y_values, label="Euler Method")
+    plt.plot(t_values, np.exp(-2 * np.array(t_values)), label="Data Points")
     plt.title("Euler's Method for ODE")
     plt.legend()
     plt.grid()
