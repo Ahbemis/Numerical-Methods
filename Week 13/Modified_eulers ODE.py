@@ -26,18 +26,25 @@ def euler_method(f, y0, t0, t_end, h):
     t = t0
     y = y0
 
-    # Perform Euler's method until the end time is reached
-    while t < t_end:
-        # Update y using the Euler formula: y_next = y_current + h * f(t, y)
-        y = y + h * f(t, y)
-        # Increment time by the step size
-        t = t + h
-        # Append the new time and solution values to the lists
-        t_values.append(t)
-        y_values.append(y)
+    # # Perform Euler's method until the end time is reached
+    # while t < t_end:
+    #     # Update y using the Euler formula: y_next = y_current + h * f(t, y)
+    #     y = y + 0.5*h * f(t, y)
+    #     y2 = y + h * f(t + 0.5*h, y)
+    #     # Increment time by the step size
+    #     t = t + h
+    #     # Append the new time and solution values to the lists
+    #     t_values.append(t)
+    #     y_values.append(y)
 
+    while t < t_end:
+        y_values = h * f(t, y)
+        y2_values = h * f(t + h, y + y_values)
+        
+        t = t + h
+        t_values.append(t)
     # Return the computed time and solution values
-    return t_values, y_values
+        return t_values, y_values, y2_values
 
 
 # Example usage
@@ -53,15 +60,16 @@ if __name__ == "__main__":
     h = 0.01  # Step size for the numerical approximation   
 
     # Solve the ODE using Euler's method
-    t_values, y_values = euler_method(f, y0, t0, t_end, h)
+    t_values, y_values, y2_values = euler_method(f, y0, t0, t_end, h)
 
     # Print the results in a tabular format
-    for t, y in zip(t_values, y_values):
+    for t, y in zip(t_values, y_values, y2_values):
         print(f"t = {t:.2f}, y = {y:.4f}")
 
     # Plotting the results
     plt.plot(t_values, y_values, label="Euler Method")
     plt.plot(t_values, np.exp(-2 * np.array(t_values)), label="Data Points")
+    plt.plot(t_values, y2_values, 'ro', label="Data Points")
     plt.title("Euler's Method for ODE")
     plt.legend()
     plt.grid()
